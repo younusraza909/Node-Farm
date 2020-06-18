@@ -30,14 +30,21 @@ const url = require("url");
 // console.log("Reading Files.....");
 
 //*****************Building A simple Web Server ************//
+const Data = fs.readFileSync(`${__dirname}/dev-data/data.json`, "utf-8");
+const productData = JSON.parse(Data);
+
 const server = http.createServer((req, res) => {
   //it give us current url
-  console.log(req.url);
   const pathName = req.url;
   if (pathName === "/" || pathName === "/overview") {
     res.end("This Is The Overview");
   } else if (pathName === "/product") {
     res.end("This Is The Product");
+  } else if (pathName === "/api") {
+    res.writeHead(200, {
+      "Content-type": "application/json",
+    });
+    res.end(Data);
   } else {
     res.writeHead(404, {
       "Content-type": "text/html",
