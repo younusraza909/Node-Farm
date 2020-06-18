@@ -1,5 +1,6 @@
 const fs = require("fs");
 const http = require("http");
+const url = require("url");
 
 //*****************Blocking, synchrounous Way***************//
 // const textIn = fs.readFileSync("./txt/input.txt", "utf-8");
@@ -30,7 +31,19 @@ const http = require("http");
 
 //*****************Building A simple Web Server ************//
 const server = http.createServer((req, res) => {
-  res.end("Hello from the server");
+  //it give us current url
+  console.log(req.url);
+  const pathName = req.url;
+  if (pathName === "/" || pathName === "/overview") {
+    res.end("This Is The Overview");
+  } else if (pathName === "/product") {
+    res.end("This Is The Product");
+  } else {
+    res.writeHead(404, {
+      "Content-type": "text/html",
+    });
+    res.end("<h1>Page Not Found</h1>");
+  }
 });
 
 server.listen(8000, "127.0.0.1", () => {
